@@ -404,7 +404,7 @@ function initWorkGrid() {
     const isLarge = i === 0;
     const delay   = i === 1 ? 'style="--delay:0.15s"' : i === 2 ? 'style="--delay:0.3s"' : '';
     return `
-      <div class="work-item ${isLarge ? 'work-item--large' : ''} reveal" ${delay} data-tilt>
+      <div class="work-item ${isLarge ? 'work-item--large' : ''} reveal" ${delay}>
         <div class="work-thumb">
           <img class="work-img"
             src="${p.thumbnail || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&h=1200&fit=crop&q=80'}"
