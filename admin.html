@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Gitay Gold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- ─── LOGIN ─────────────────────────────────────────────────── -->
+  <div class="view" id="viewLogin">
+    <div class="login-wrap">
+      <a href="index.html" class="login-back">← Back to site</a>
+      <div class="login-logo">Gitay Gold<span class="dot">.</span></div>
+      <h1 class="login-title">Admin Access</h1>
+      <p class="login-sub">Enter your password to manage projects</p>
+      <form class="login-form" id="loginForm">
+        <div class="field">
+          <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" />
+        </div>
+        <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+        <button type="submit" class="btn-primary">Enter Admin →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── DASHBOARD ─────────────────────────────────────────────── -->
+  <div class="view hidden" id="viewDashboard">
+    <header class="admin-header">
+      <div class="admin-logo">Gitay Gold<span class="dot">.</span> <span class="admin-badge">Admin</span></div>
+      <div class="admin-header-actions">
+        <a href="index.html" class="btn-ghost" target="_blank">← View Site</a>
+        <button class="btn-ghost" id="logoutBtn">Logout</button>
+      </div>
+    </header>
+
+    <div class="dashboard-body">
+      <div class="dashboard-top">
+        <div>
+          <h2 class="dashboard-title">Projects</h2>
+          <p class="dashboard-sub" id="projectCount">Loading…</p>
+        </div>
+        <button class="btn-primary" id="newProjectBtn">+ New Project</button>
+      </div>
+
+      <div class="projects-table-wrap">
+        <table class="projects-table">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Client</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="projectsTableBody"></tbody>
+        </table>
+        <div class="empty-state hidden" id="emptyState">
+          <p>No projects yet.</p>
+          <button class="btn-primary" onclick="document.getElementById('newProjectBtn').click()">Add your first project →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── EDITOR ────────────────────────────────────────────────── -->
+  <div class="view hidden" id="viewEditor">
+    <header class="admin-header">
+      <button class="btn-ghost" id="editorBackBtn">← All Projects</button>
+      <div class="editor-title-bar" id="editorTitleBar">New Project</div>
+      <div class="admin-header-actions">
+        <button class="btn-ghost" id="editorCancelBtn">Cancel</button>
+        <button class="btn-primary" id="editorSaveBtn">Save Project</button>
+      </div>
+    </header>
+
+    <div class="editor-body">
+      <form id="editorForm">
+
+        <!-- BASIC INFO -->
+        <section class="editor-section">
+          <h3 class="editor-section-title">Basic Info</h3>
+          <div class="fields-grid">
+            <div class="field field--full">
+              <label>Project Title *</label>
+              <input type="text" name="title" placeholder="Luminary — Full Brand & Web Platform" required />
+            </div>
+            <div class="field">
+              <label>Client *</label>
+              <input type="text" name="client" placeholder="Luminary" required />
+            </div>
+            <div class="field">
+              <label>Year *</label>
+              <input type="text" name="date" placeholder="2025" required />
+            </div>
+            <div class="field">
+              <label>Category</label>
+              <select name="category">
+                <option value="web">Web Development</option>
+                <option value="ecommerce">E-Commerce</option>
+                <option value="branding">Branding</option>
+                <option value="ux">UX / Product</option>
+                <option value="motion">Motion & Video</option>
+                <option value="ai">AI & Automation</option>
+                <option value="landing">Landing Page</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Live URL</label>
+              <input type="url" name="liveUrl" placeholder="https://client.com" />
+            </div>
+            <div class="field">
+              <label>Tags <span class="field-hint">comma separated</span></label>
+              <input type="text" name="tagsRaw" placeholder="React, Shopify, Motion Design" />
+            </div>
+            <div class="field field--full">
+              <label>Short Description <span class="field-hint">shown in portfolio grid</span></label>
+              <textarea name="shortDesc" rows="2" placeholder="A one-line project summary for the portfolio…"></textarea>
+            </div>
+          </div>
+          <div class="toggles-row">
+            <label class="toggle-label">
+              <input type="checkbox" name="featured" class="toggle-input" />
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              Featured (shown in portfolio)
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" name="visible" class="toggle-input" checked />
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              Visible (public)
+            </label>
+          </div>
+        </section>
+
+        <!-- MEDIA -->
+        <section class="editor-section">
+          <h3 class="editor-section-title">Media</h3>
+          <div class="fields-grid">
+            <div class="field field--full">
+              <label>Hero Image URL <span class="field-hint">full-width, ~1600×900</span></label>
+              <input type="url" name="heroImage" placeholder="https://images.unsplash.com/…" />
+              <div class="image-preview" id="heroPreview"></div>
+            </div>
+            <div class="field field--full">
+              <label>Thumbnail URL <span class="field-hint">portfolio card, ~900×1200</span></label>
+              <input type="url" name="thumbnail" placeholder="https://images.unsplash.com/…" />
+              <div class="image-preview" id="thumbPreview"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STORY -->
+        <section class="editor-section">
+          <h3 class="editor-section-title">The Story</h3>
+          <div class="fields-grid">
+            <div class="field field--full">
+              <label>The Challenge</label>
+              <textarea name="challenge" rows="4" placeholder="What problem did the client face? What was broken, slow, or missing?"></textarea>
+            </div>
+            <div class="field field--full">
+              <label>The Solution</label>
+              <textarea name="solution" rows="4" placeholder="How did you approach it? What did you build or design?"></textarea>
+            </div>
+            <div class="field field--full">
+              <label>Results & Outcomes</label>
+              <textarea name="results" rows="4" placeholder="What changed? What numbers improved? What did the client say?"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- METRICS / KPIs -->
+        <section class="editor-section">
+          <div class="section-head">
+            <h3 class="editor-section-title">Metrics / KPIs</h3>
+            <button type="button" class="btn-add" id="addKpiBtn">+ Add Metric</button>
+          </div>
+          <div class="kpi-list" id="kpiList"></div>
+        </section>
+
+        <!-- CONTENT BLOCKS -->
+        <section class="editor-section">
+          <div class="section-head">
+            <h3 class="editor-section-title">Content Blocks</h3>
+            <div class="block-type-btns">
+              <button type="button" class="btn-add" data-add-block="text">+ Text</button>
+              <button type="button" class="btn-add" data-add-block="image">+ Image</button>
+              <button type="button" class="btn-add" data-add-block="quote">+ Quote</button>
+              <button type="button" class="btn-add" data-add-block="list">+ List</button>
+            </div>
+          </div>
+          <div class="blocks-list" id="blocksList"></div>
+        </section>
+
+      </form>
+    </div>
+  </div>
+
+  <script src="cms.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

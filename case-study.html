@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Study — Gitay Gold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="case-study.css" />
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="cs-nav" id="csNav">
+    <a href="index.html" class="cs-nav-logo">Gitay Gold<span class="dot">.</span></a>
+    <a href="index.html#work" class="cs-nav-back">← Back to Work</a>
+  </nav>
+
+  <!-- 404 fallback -->
+  <div class="cs-404 hidden" id="cs404">
+    <h1>Project not found</h1>
+    <p>This case study doesn't exist or has been removed.</p>
+    <a href="index.html#work" class="btn-back-big">← Back to portfolio</a>
+  </div>
+
+  <!-- Case Study content (filled by JS) -->
+  <article class="cs-article hidden" id="csArticle">
+
+    <!-- Hero -->
+    <div class="cs-hero" id="csHero">
+      <div class="cs-hero-overlay"></div>
+      <div class="cs-hero-content">
+        <div class="cs-hero-meta" id="csHeroMeta"></div>
+        <h1 class="cs-hero-title" id="csHeroTitle"></h1>
+        <p class="cs-hero-desc" id="csHeroDesc"></p>
+      </div>
+    </div>
+
+    <!-- Project info bar -->
+    <div class="cs-info-bar" id="csInfoBar"></div>
+
+    <!-- Body -->
+    <div class="cs-body">
+
+      <!-- Challenge -->
+      <section class="cs-section reveal" id="csChallengeSection">
+        <div class="cs-section-label">The Challenge</div>
+        <p class="cs-section-text" id="csChallenge"></p>
+      </section>
+
+      <!-- Solution -->
+      <section class="cs-section reveal" id="csSolutionSection">
+        <div class="cs-section-label">The Solution</div>
+        <p class="cs-section-text" id="csSolution"></p>
+      </section>
+
+      <!-- Content Blocks -->
+      <div id="csBlocks"></div>
+
+      <!-- KPIs / Results -->
+      <section class="cs-kpis reveal" id="csKpisSection">
+        <div class="cs-section-label">Results & Impact</div>
+        <p class="cs-section-text" id="csResults"></p>
+        <div class="cs-kpi-grid" id="csKpiGrid"></div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cs-cta reveal" id="csCta">
+        <a href="#" class="cs-live-btn" id="csLiveBtn" target="_blank" rel="noopener">
+          <span>View Live Site</span>
+          <span class="cs-live-arrow">↗</span>
+        </a>
+      </section>
+
+    </div>
+
+    <!-- Related Projects -->
+    <section class="cs-related" id="csRelated">
+      <div class="cs-related-label">More Work</div>
+      <div class="cs-related-grid" id="csRelatedGrid"></div>
+    </section>
+
+  </article>
+
+  <!-- Footer -->
+  <footer class="cs-footer">
+    <span>© 2026 Gitay Gold. All rights reserved.</span>
+    <a href="index.html#contact">Let's work together →</a>
+  </footer>
+
+  <script src="cms.js"></script>
+  <script src="case-study.js"></script>
+</body>
+</html>
