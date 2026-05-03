@@ -3,85 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gitay Gold — Web Agency & AI Studio</title>
+  <title>Gitay Gold — Web Agency &amp; AI Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body data-theme="ink">
 
-  <!-- Loading Screen -->
+  <!-- ─── Loading Screen ─────────────────────────────────────────── -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-panel loading-panel--top"></div>
     <div class="loading-panel loading-panel--bottom"></div>
     <div class="loading-content">
-      <div class="loading-logo">Gitay Gold<span class="loading-dot">.</span></div>
-      <div class="loading-progress">
-        <div class="loading-bar-track">
-          <div class="loading-bar" id="loadingBar"></div>
-        </div>
-        <span class="loading-num" id="loadingNum">0</span>
+      <div class="loading-mark">
+        <span class="loading-glyph">G</span>
+        <span class="loading-bar-mini" id="loadingBarMini"></span>
+        <span class="loading-glyph">G</span>
+      </div>
+      <div class="loading-meta">
+        <span class="loading-label">Crafting the gold —</span>
+        <span class="loading-num" id="loadingNum">000</span>
       </div>
     </div>
   </div>
 
-  <!-- Custom Cursor -->
-  <div class="cursor" id="cursor"></div>
+  <!-- ─── Custom Cursor ──────────────────────────────────────────── -->
+  <div class="cursor" id="cursor">
+    <span class="cursor-label" id="cursorLabel"></span>
+  </div>
   <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-trail" id="cursorTrail"></div>
 
-  <!-- Noise overlay -->
+  <!-- ─── Smooth-scroll wrapper ──────────────────────────────────── -->
   <canvas class="noise-canvas" id="noiseCanvas"></canvas>
+  <div class="grain-overlay"></div>
 
-  <!-- Nav -->
+  <!-- ─── Side rails ─────────────────────────────────────────────── -->
+  <div class="rail rail--left">
+    <span class="rail-text">Gitay Gold — A Studio of Digital Goldsmiths</span>
+  </div>
+  <div class="rail rail--right">
+    <span class="rail-text" id="scrollPctText">00 — Index</span>
+  </div>
+
+  <!-- ─── Section Indicator ──────────────────────────────────────── -->
+  <aside class="section-indicator" id="sectionIndicator">
+    <a href="#hero"         class="indicator-dot is-active" data-label="Intro"></a>
+    <a href="#manifesto"    class="indicator-dot" data-label="Manifesto"></a>
+    <a href="#services"     class="indicator-dot" data-label="Services"></a>
+    <a href="#work"         class="indicator-dot" data-label="Work"></a>
+    <a href="#process"      class="indicator-dot" data-label="Process"></a>
+    <a href="#testimonials" class="indicator-dot" data-label="Voices"></a>
+    <a href="#contact"      class="indicator-dot" data-label="Contact"></a>
+  </aside>
+
+  <!-- ─── Nav ────────────────────────────────────────────────────── -->
   <nav class="nav" id="nav">
-    <a href="#" class="nav-logo">Gitay Gold<span class="dot">.</span></a>
+    <a href="#hero" class="nav-logo" data-cursor="home">
+      <span class="logo-mark">◉</span>
+      <span class="logo-text">Gitay&nbsp;Gold<span class="dot">.</span></span>
+    </a>
     <div class="nav-center">
-      <a href="#work" class="nav-item">Work</a>
-      <a href="#services" class="nav-item">Services</a>
-      <a href="#process" class="nav-item">Process</a>
-      <a href="#contact" class="nav-item">Contact</a>
+      <a href="#work"     class="nav-item"><span>01</span>Work</a>
+      <a href="#services" class="nav-item"><span>02</span>Services</a>
+      <a href="#process"  class="nav-item"><span>03</span>Process</a>
+      <a href="#contact"  class="nav-item"><span>04</span>Contact</a>
     </div>
-    <div class="nav-tag">EST. 2026</div>
+    <a href="#contact" class="nav-cta" data-cursor="contact">
+      <span class="nav-cta-text">Start a project</span>
+      <span class="nav-cta-arrow">↗</span>
+    </a>
   </nav>
 
-  <main>
+  <main id="smoothMain">
 
-    <!-- ─── Hero ──────────────────────────────────────────────────── -->
-    <section class="hero" id="hero">
+    <!-- ═════ HERO ═════════════════════════════════════════════════ -->
+    <section class="hero" id="hero" data-section-bg="#060606">
       <canvas class="hero-canvas" id="heroCanvas"></canvas>
 
-      <div class="hero-eyebrow">
-        <span class="eyebrow-line"></span>
-        <span>Gitay Gold — Web Agency &amp; AI Studio</span>
-      </div>
+      <div class="hero-grain"></div>
 
-      <h1 class="hero-title">
-        <span class="title-line">
-          <span class="title-word" data-scramble="We turn">We turn</span>
+      <header class="hero-meta">
+        <div class="meta-block">
+          <span class="meta-key">Studio</span>
+          <span class="meta-val">Gitay Gold</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-key">Discipline</span>
+          <span class="meta-val">Web · Brand · AI</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-key">Index</span>
+          <span class="meta-val">Vol. 01 / 2026</span>
+        </div>
+        <div class="meta-block meta-block--end">
+          <span class="meta-key">Status</span>
+          <span class="meta-status"><span class="status-pulse"></span>Accepting 3 projects</span>
+        </div>
+      </header>
+
+      <h1 class="hero-title" data-split>
+        <span class="hero-line hero-line--1">
+          <span class="hero-word" data-word>We</span>
+          <span class="hero-word" data-word>turn</span>
         </span>
-        <span class="title-line title-line--indent">
-          <span class="title-word italic" data-scramble="ideas into">ideas into</span>
+        <span class="hero-line hero-line--2">
+          <span class="hero-word italic" data-word>ideas</span>
+          <span class="hero-word" data-word>into</span>
         </span>
-        <span class="title-line">
-          <span class="title-word" data-scramble="digital">digital</span>
+        <span class="hero-line hero-line--3">
+          <span class="hero-word" data-word>digital</span>
         </span>
-        <span class="title-line title-line--indent2">
-          <span class="title-word italic accent" data-scramble="gold.">gold.</span>
+        <span class="hero-line hero-line--4">
+          <span class="hero-word italic accent" data-word>gold.</span>
+          <span class="hero-asterisk" aria-hidden="true">✦</span>
         </span>
       </h1>
 
       <div class="hero-bottom">
         <p class="hero-description">
-          High-converting websites, complex stores,<br />
-          and AI-powered experiences — engineered<br />
-          to dominate your market.
+          <span class="desc-line">A boutique studio engineering</span>
+          <span class="desc-line">high-converting websites, complex commerce,</span>
+          <span class="desc-line">and AI-native experiences for brands</span>
+          <span class="desc-line"><em>that refuse to be average.</em></span>
         </p>
-        <div class="hero-scroll-hint">
-          <div class="scroll-line"></div>
-          <span>Scroll</span>
-        </div>
+
+        <a href="#work" class="hero-scroll" data-cursor="explore">
+          <span class="scroll-arrow">↓</span>
+          <span class="scroll-words">
+            <span>Scroll to explore</span>
+            <span>Scroll to explore</span>
+          </span>
+        </a>
       </div>
 
       <div class="hero-counter">
@@ -89,366 +142,540 @@
           <span class="counter-num" data-count="120">0<sup>+</sup></span>
           <span class="counter-label">Projects Delivered</span>
         </div>
+        <div class="counter-divider"></div>
         <div class="counter-item">
           <span class="counter-num" data-count="98">0<sup>%</sup></span>
           <span class="counter-label">Client Retention</span>
         </div>
+        <div class="counter-divider"></div>
         <div class="counter-item">
           <span class="counter-num" data-count="14">0</span>
-          <span class="counter-label">Industry Awards</span>
+          <span class="counter-label">Awards &amp; Mentions</span>
+        </div>
+        <div class="counter-divider"></div>
+        <div class="counter-item">
+          <span class="counter-num counter-num--text"><em>Boutique.</em></span>
+          <span class="counter-label">Hand-crafted, Always</span>
         </div>
       </div>
     </section>
 
-    <!-- ─── Marquee 1 ──────────────────────────────────────────────── -->
-    <div class="marquee-section">
+    <!-- ═════ MARQUEE 1 ════════════════════════════════════════════ -->
+    <div class="marquee-section marquee-section--big">
       <div class="marquee-track">
         <div class="marquee-inner">
-          <span>Complex Websites</span><span class="sep">✦</span>
-          <span>E-Commerce Stores</span><span class="sep">✦</span>
-          <span>Landing Pages</span><span class="sep">✦</span>
-          <span>AI Development</span><span class="sep">✦</span>
-          <span>Vibe Coding</span><span class="sep">✦</span>
-          <span>Brand Identity</span><span class="sep">✦</span>
-          <span>Motion Design</span><span class="sep">✦</span>
-          <span>Conversion Optimization</span><span class="sep">✦</span>
-          <span>Complex Websites</span><span class="sep">✦</span>
-          <span>E-Commerce Stores</span><span class="sep">✦</span>
-          <span>Landing Pages</span><span class="sep">✦</span>
-          <span>AI Development</span><span class="sep">✦</span>
-          <span>Vibe Coding</span><span class="sep">✦</span>
-          <span>Brand Identity</span><span class="sep">✦</span>
-          <span>Motion Design</span><span class="sep">✦</span>
-          <span>Conversion Optimization</span><span class="sep">✦</span>
+          <span class="m-word">Complex Websites</span><span class="sep">✦</span>
+          <span class="m-word">E-Commerce Stores</span><span class="sep">✦</span>
+          <span class="m-word">Landing Pages</span><span class="sep">✦</span>
+          <span class="m-word italic">AI Development</span><span class="sep">✦</span>
+          <span class="m-word">Vibe Coding</span><span class="sep">✦</span>
+          <span class="m-word italic">Brand Identity</span><span class="sep">✦</span>
+          <span class="m-word">Motion Design</span><span class="sep">✦</span>
+          <span class="m-word italic">Conversion Obsessed</span><span class="sep">✦</span>
+          <span class="m-word">Complex Websites</span><span class="sep">✦</span>
+          <span class="m-word">E-Commerce Stores</span><span class="sep">✦</span>
+          <span class="m-word">Landing Pages</span><span class="sep">✦</span>
+          <span class="m-word italic">AI Development</span><span class="sep">✦</span>
+          <span class="m-word">Vibe Coding</span><span class="sep">✦</span>
+          <span class="m-word italic">Brand Identity</span><span class="sep">✦</span>
+          <span class="m-word">Motion Design</span><span class="sep">✦</span>
+          <span class="m-word italic">Conversion Obsessed</span><span class="sep">✦</span>
         </div>
       </div>
     </div>
 
-    <!-- ─── Services ──────────────────────────────────────────────── -->
-    <section class="services" id="services">
-      <div class="section-header reveal">
-        <span class="section-num">01</span>
-        <h2 class="section-title">Six ways we<br />make you<br /><em>unforgettable.</em></h2>
-      </div>
-
-      <div class="services-grid">
-
-        <div class="service-card reveal" data-tilt>
-          <span class="service-bg-num">01</span>
-          <span class="service-label">01 — Websites</span>
-          <h3 class="service-title">Complex Websites<br />&amp; Web Apps</h3>
-          <p class="service-desc">Architecture that scales. Experiences that convert. We engineer digital products built for growth — from SaaS platforms to enterprise-grade portals.</p>
-          <span class="service-arrow">→</span>
-          <div class="card-shine"></div>
+    <!-- ═════ MANIFESTO (sticky / pinned) ══════════════════════════ -->
+    <section class="manifesto" id="manifesto" data-section-bg="#0a0907">
+      <div class="manifesto-inner">
+        <span class="manifesto-eyebrow">
+          <span class="eyebrow-dot"></span>
+          <span>(Manifesto / 00)</span>
+        </span>
+        <h2 class="manifesto-text" data-reveal-words>
+          We don't build websites that look like everyone else's.
+          We engineer
+          <em class="accent">obsessively-crafted</em>
+          digital products — engineered for speed,
+          designed to <em>seduce</em>,
+          and built to <em class="accent">convert</em>.
+        </h2>
+        <div class="manifesto-foot">
+          <span class="foot-key">— Studio principle</span>
+          <span class="foot-val">No template. No shortcut. No average.</span>
         </div>
-
-        <div class="service-card reveal" style="--delay:0.1s" data-tilt>
-          <span class="service-bg-num">02</span>
-          <span class="service-label">02 — E-Commerce</span>
-          <h3 class="service-title">Stores That<br />Sell While You Sleep</h3>
-          <p class="service-desc">Shopify, WooCommerce, custom stacks — we build stores that don't just look good. Every element is obsessively optimized for conversion and revenue.</p>
-          <span class="service-arrow">→</span>
-          <div class="card-shine"></div>
-        </div>
-
-        <div class="service-card reveal" style="--delay:0.2s" data-tilt>
-          <span class="service-bg-num">03</span>
-          <span class="service-label">03 — Landing Pages</span>
-          <h3 class="service-title">One Page.<br />Infinite Results.</h3>
-          <p class="service-desc">We design high-impact landing pages with one mission: turn visitors into customers. Tested, optimized, and built to perform from day one.</p>
-          <span class="service-arrow">→</span>
-          <div class="card-shine"></div>
-        </div>
-
-        <div class="service-card reveal" style="--delay:0.1s" data-tilt>
-          <span class="service-bg-num">04</span>
-          <span class="service-label">04 — AI & Vibe Coding</span>
-          <h3 class="service-title">AI-Powered.<br />Human-Perfected.</h3>
-          <p class="service-desc">We harness Claude, GPT-4, and the latest AI tools to build faster and smarter than any traditional agency — without sacrificing craft or quality.</p>
-          <span class="service-arrow">→</span>
-          <div class="card-shine"></div>
-        </div>
-
-        <div class="service-card reveal" style="--delay:0.2s" data-tilt>
-          <span class="service-bg-num">05</span>
-          <span class="service-label">05 — Brand & Design</span>
-          <h3 class="service-title">Identities That<br />Command Respect.</h3>
-          <p class="service-desc">Your visual identity rebuilt from the ground up. Logos, systems, and style guides that make your brand instantly recognizable — and impossible to ignore.</p>
-          <span class="service-arrow">→</span>
-          <div class="card-shine"></div>
-        </div>
-
-        <div class="service-card reveal" style="--delay:0.3s" data-tilt>
-          <span class="service-bg-num">06</span>
-          <span class="service-label">06 — Motion & Editing</span>
-          <h3 class="service-title">Stories That<br />Move &amp; Sell.</h3>
-          <p class="service-desc">Video content, social reels, motion graphics, and product animations. We tell your story in motion — the kind that stops thumbs and opens wallets.</p>
-          <span class="service-arrow">→</span>
-          <div class="card-shine"></div>
-        </div>
-
       </div>
     </section>
 
-    <!-- ─── Marquee 2 (reversed, tech stack) ──────────────────────── -->
+    <!-- ═════ SERVICES — Horizontal scroll ═════════════════════════ -->
+    <section class="services" id="services" data-section-bg="#060606">
+      <div class="services-header">
+        <span class="section-num">( 01 / Services )</span>
+        <h2 class="section-title">
+          <span class="line-reveal"><span>Six&nbsp;ways&nbsp;we&nbsp;make&nbsp;you</span></span>
+          <span class="line-reveal"><em><span>unforgettable.</span></em></span>
+        </h2>
+        <p class="services-lead">
+          We don't offer everything. We obsess over the few things that move the needle —
+          and we do them with a level of craft most agencies have forgotten exists.
+        </p>
+        <div class="services-progress">
+          <span class="progress-current" id="progressCurrent">01</span>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <span class="progress-total">/ 06</span>
+        </div>
+      </div>
+
+      <div class="services-horizontal" id="servicesHorizontal">
+        <div class="services-row" id="servicesRow">
+
+          <article class="svc-card" data-cursor="discover">
+            <span class="svc-num">01</span>
+            <span class="svc-tag">— Websites &amp; Web Apps</span>
+            <h3 class="svc-title">Architecture<br/><em>that&nbsp;scales.</em></h3>
+            <p class="svc-desc">SaaS platforms, enterprise portals, marketing sites — engineered with the patience of a Swiss watchmaker and the speed of a startup.</p>
+            <ul class="svc-list">
+              <li>Next.js · React · Astro</li>
+              <li>Supabase · Firebase · Custom APIs</li>
+              <li>Performance-budget enforced</li>
+            </ul>
+            <span class="svc-arrow">↗</span>
+            <div class="svc-shine"></div>
+          </article>
+
+          <article class="svc-card" data-cursor="discover">
+            <span class="svc-num">02</span>
+            <span class="svc-tag">— E-Commerce</span>
+            <h3 class="svc-title">Stores that<br/><em>sell&nbsp;in&nbsp;their&nbsp;sleep.</em></h3>
+            <p class="svc-desc">Shopify, Headless, custom stacks. Every pixel is conversion-tested. Every interaction is optimized for revenue.</p>
+            <ul class="svc-list">
+              <li>Shopify Plus · Hydrogen</li>
+              <li>Custom checkout flows</li>
+              <li>+340% avg. conversion lift</li>
+            </ul>
+            <span class="svc-arrow">↗</span>
+            <div class="svc-shine"></div>
+          </article>
+
+          <article class="svc-card" data-cursor="discover">
+            <span class="svc-num">03</span>
+            <span class="svc-tag">— Landing Pages</span>
+            <h3 class="svc-title">One page.<br/><em>Infinite&nbsp;results.</em></h3>
+            <p class="svc-desc">High-impact, single-purpose pages designed to do one thing: turn cold traffic into customers. Tested. Iterated. Proven.</p>
+            <ul class="svc-list">
+              <li>Copy + design + dev</li>
+              <li>A/B-ready by default</li>
+              <li>Ships in 7 days</li>
+            </ul>
+            <span class="svc-arrow">↗</span>
+            <div class="svc-shine"></div>
+          </article>
+
+          <article class="svc-card svc-card--accent" data-cursor="discover">
+            <span class="svc-num">04</span>
+            <span class="svc-tag">— AI &amp; Vibe Coding</span>
+            <h3 class="svc-title">AI-powered.<br/><em>Human-perfected.</em></h3>
+            <p class="svc-desc">Claude, GPT-5, custom agents and AI integrations. We build at the velocity of imagination — without sacrificing craft.</p>
+            <ul class="svc-list">
+              <li>Custom GPT &amp; Claude agents</li>
+              <li>RAG, embeddings, automation</li>
+              <li>2× faster than legacy agencies</li>
+            </ul>
+            <span class="svc-arrow">↗</span>
+            <div class="svc-shine"></div>
+          </article>
+
+          <article class="svc-card" data-cursor="discover">
+            <span class="svc-num">05</span>
+            <span class="svc-tag">— Brand &amp; Identity</span>
+            <h3 class="svc-title">Identities that<br/><em>command&nbsp;respect.</em></h3>
+            <p class="svc-desc">Logos, type systems, motion principles, brand guidelines. We build identities that age with grace and scale with ambition.</p>
+            <ul class="svc-list">
+              <li>Logo &amp; mark design</li>
+              <li>Typography systems</li>
+              <li>Brand &amp; motion guidelines</li>
+            </ul>
+            <span class="svc-arrow">↗</span>
+            <div class="svc-shine"></div>
+          </article>
+
+          <article class="svc-card" data-cursor="discover">
+            <span class="svc-num">06</span>
+            <span class="svc-tag">— Motion &amp; Editing</span>
+            <h3 class="svc-title">Stories that<br/><em>move&nbsp;&amp;&nbsp;sell.</em></h3>
+            <p class="svc-desc">Reels, ads, motion graphics, product films. We tell stories in motion — the kind that stop thumbs and open wallets.</p>
+            <ul class="svc-list">
+              <li>Social-first reels &amp; cuts</li>
+              <li>3D &amp; product animations</li>
+              <li>End-to-end production</li>
+            </ul>
+            <span class="svc-arrow">↗</span>
+            <div class="svc-shine"></div>
+          </article>
+
+          <div class="svc-end">
+            <span class="end-line"></span>
+            <span class="end-text">— You've reached the end. Now let's build.</span>
+            <a href="#contact" class="end-cta">Get in touch ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════ MARQUEE 2 ════════════════════════════════════════════ -->
     <div class="marquee-section">
       <div class="marquee-track">
         <div class="marquee-inner marquee-inner--reverse">
-          <span>React</span><span class="sep">✦</span>
-          <span>Next.js</span><span class="sep">✦</span>
-          <span>Shopify</span><span class="sep">✦</span>
-          <span>Framer</span><span class="sep">✦</span>
-          <span>Figma</span><span class="sep">✦</span>
-          <span>Claude AI</span><span class="sep">✦</span>
-          <span>GPT-4o</span><span class="sep">✦</span>
-          <span>Webflow</span><span class="sep">✦</span>
-          <span>Node.js</span><span class="sep">✦</span>
-          <span>Three.js</span><span class="sep">✦</span>
-          <span>GSAP</span><span class="sep">✦</span>
-          <span>Tailwind</span><span class="sep">✦</span>
-          <span>React</span><span class="sep">✦</span>
-          <span>Next.js</span><span class="sep">✦</span>
-          <span>Shopify</span><span class="sep">✦</span>
-          <span>Framer</span><span class="sep">✦</span>
-          <span>Figma</span><span class="sep">✦</span>
-          <span>Claude AI</span><span class="sep">✦</span>
-          <span>GPT-4o</span><span class="sep">✦</span>
-          <span>Webflow</span><span class="sep">✦</span>
-          <span>Node.js</span><span class="sep">✦</span>
-          <span>Three.js</span><span class="sep">✦</span>
-          <span>GSAP</span><span class="sep">✦</span>
-          <span>Tailwind</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">React</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Next.js</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Shopify</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Framer</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Figma</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Claude AI</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">GPT-5</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Webflow</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Node.js</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Three.js</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">GSAP</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Tailwind</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">React</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Next.js</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Shopify</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Framer</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Figma</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Claude AI</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">GPT-5</span><span class="sep">✦</span>
+          <span class="m-word m-word--small">Webflow</span><span class="sep">✦</span>
         </div>
       </div>
     </div>
 
-    <!-- ─── Work ───────────────────────────────────────────────────── -->
-    <section class="work" id="work">
-      <div class="section-header reveal">
-        <span class="section-num">02</span>
-        <h2 class="section-title">Recent<br /><em>Wins</em></h2>
+    <!-- ═════ WORK ═════════════════════════════════════════════════ -->
+    <section class="work" id="work" data-section-bg="#070707">
+      <div class="work-header">
+        <span class="section-num">( 02 / Selected Work )</span>
+        <h2 class="section-title">
+          <span class="line-reveal"><span>Recent</span></span>
+          <span class="line-reveal"><em><span>wins.</span></em></span>
+        </h2>
       </div>
 
-      <!-- Populated dynamically by script.js from CMS -->
       <div class="work-grid" id="workGrid">
-        <div class="work-item work-item--large reveal">
+        <article class="work-item work-item--large reveal" data-cursor="view">
           <div class="work-thumb">
-            <img
-              class="work-img"
-              src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&h=1200&fit=crop&q=80"
-              alt="Luminary Brand Identity"
-              loading="lazy"
-            />
+            <div class="work-img-wrap">
+              <img class="work-img"
+                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&h=1200&fit=crop&q=80"
+                alt="Luminary Brand Identity" loading="lazy" />
+            </div>
             <div class="work-overlay"></div>
             <div class="work-thumb-inner">
               <span class="work-year">2025</span>
-              <div class="work-hover-label">View Project →</div>
+              <div class="work-hover-label">View Case Study →</div>
             </div>
             <div class="work-shine"></div>
           </div>
           <div class="work-meta">
-            <h3>Luminary — Full Brand & Web Platform</h3>
-            <span>Branding, Web App, E-Commerce</span>
+            <span class="work-index">— 01</span>
+            <h3>Luminary — Full Brand &amp; Web Platform</h3>
+            <span class="work-tags">Branding · Web App · E-Commerce</span>
           </div>
-        </div>
+        </article>
 
-        <div class="work-item reveal" style="--delay: 0.15s">
+        <article class="work-item reveal" style="--delay:0.15s" data-cursor="view">
           <div class="work-thumb">
-            <img
-              class="work-img"
-              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=80"
-              alt="Apex Web Platform"
-              loading="lazy"
-            />
+            <div class="work-img-wrap">
+              <img class="work-img"
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=80"
+                alt="Apex Web Platform" loading="lazy" />
+            </div>
             <div class="work-overlay"></div>
             <div class="work-thumb-inner">
               <span class="work-year">2025</span>
-              <div class="work-hover-label">View Project →</div>
+              <div class="work-hover-label">View Case Study →</div>
             </div>
             <div class="work-shine"></div>
           </div>
           <div class="work-meta">
+            <span class="work-index">— 02</span>
             <h3>Apex — AI-Powered Dashboard</h3>
-            <span>UX Strategy, AI Integration</span>
+            <span class="work-tags">UX Strategy · AI Integration</span>
           </div>
-        </div>
+        </article>
 
-        <div class="work-item reveal" style="--delay: 0.3s">
+        <article class="work-item reveal" style="--delay:0.3s" data-cursor="view">
           <div class="work-thumb">
-            <img
-              class="work-img"
-              src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&h=600&fit=crop&q=80"
-              alt="Ember Art Direction"
-              loading="lazy"
-            />
+            <div class="work-img-wrap">
+              <img class="work-img"
+                src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&h=600&fit=crop&q=80"
+                alt="Ember Art Direction" loading="lazy" />
+            </div>
             <div class="work-overlay"></div>
             <div class="work-thumb-inner">
               <span class="work-year">2024</span>
-              <div class="work-hover-label">View Project →</div>
+              <div class="work-hover-label">View Case Study →</div>
             </div>
             <div class="work-shine"></div>
           </div>
           <div class="work-meta">
+            <span class="work-index">— 03</span>
             <h3>Ember — Shopify Store Rebuild</h3>
-            <span>E-Commerce, Motion, Conversion</span>
+            <span class="work-tags">E-Commerce · Motion · Conversion</span>
           </div>
+        </article>
+      </div>
+
+      <a href="#" class="work-all" data-cursor="explore">
+        <span>See full archive</span>
+        <span class="all-arrow">↗</span>
+      </a>
+    </section>
+
+    <!-- ═════ PROCESS ══════════════════════════════════════════════ -->
+    <section class="process" id="process" data-section-bg="#080705">
+      <div class="process-header">
+        <span class="section-num">( 03 / The Process )</span>
+        <h2 class="section-title">
+          <span class="line-reveal"><span>How&nbsp;we&nbsp;build</span></span>
+          <span class="line-reveal"><em><span>gold.</span></em></span>
+        </h2>
+      </div>
+
+      <div class="process-stage">
+
+        <div class="process-rail">
+          <div class="rail-track"></div>
+          <div class="rail-fill" id="processRailFill"></div>
+        </div>
+
+        <div class="process-list">
+
+          <article class="proc-step" data-step="01">
+            <div class="proc-marker">
+              <span class="marker-ring"></span>
+              <span class="marker-dot"></span>
+            </div>
+            <div class="proc-body">
+              <span class="proc-num">Step / 01</span>
+              <h3 class="proc-name">Discover</h3>
+              <p class="proc-desc">We learn your world before we design yours. Deep research, competitor analysis, brand archaeology — until we know your audience better than you do.</p>
+              <ul class="proc-deliverables">
+                <li>Discovery workshop</li>
+                <li>Audit &amp; competitor map</li>
+                <li>Audience &amp; brand brief</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="proc-step" data-step="02">
+            <div class="proc-marker">
+              <span class="marker-ring"></span>
+              <span class="marker-dot"></span>
+            </div>
+            <div class="proc-body">
+              <span class="proc-num">Step / 02</span>
+              <h3 class="proc-name">Strategize</h3>
+              <p class="proc-desc">A blueprint built for impact. Every screen, every scroll, every word — planned with intent. We don't touch a pixel until the strategy is bulletproof.</p>
+              <ul class="proc-deliverables">
+                <li>Information architecture</li>
+                <li>Wireframes &amp; flows</li>
+                <li>Conversion strategy</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="proc-step" data-step="03">
+            <div class="proc-marker">
+              <span class="marker-ring"></span>
+              <span class="marker-dot"></span>
+            </div>
+            <div class="proc-body">
+              <span class="proc-num">Step / 03</span>
+              <h3 class="proc-name">Build</h3>
+              <p class="proc-desc">Code meets obsession. AI-accelerated, vibe-coded, human-perfected. We move fast without cutting corners — because speed and quality aren't opposites.</p>
+              <ul class="proc-deliverables">
+                <li>Hi-fi visual design</li>
+                <li>Front-end &amp; back-end build</li>
+                <li>Motion &amp; micro-interactions</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="proc-step" data-step="04">
+            <div class="proc-marker">
+              <span class="marker-ring"></span>
+              <span class="marker-dot"></span>
+            </div>
+            <div class="proc-body">
+              <span class="proc-num">Step / 04</span>
+              <h3 class="proc-name">Launch</h3>
+              <p class="proc-desc">We ship fast. Then we make it legendary. Rigorous QA, performance tuning, post-launch monitoring — until the numbers exceed your expectations.</p>
+              <ul class="proc-deliverables">
+                <li>QA &amp; performance audit</li>
+                <li>Launch coordination</li>
+                <li>30-day post-launch support</li>
+              </ul>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
 
-    <!-- ─── Process ───────────────────────────────────────────────── -->
-    <section class="process" id="process">
-      <div class="section-header reveal">
-        <span class="section-num">03</span>
-        <h2 class="section-title">How we<br />build<br /><em>gold.</em></h2>
+    <!-- ═════ TESTIMONIALS ═════════════════════════════════════════ -->
+    <section class="testimonials" id="testimonials" data-section-bg="#060606">
+      <div class="testi-header">
+        <span class="section-num">( 04 / Voices )</span>
+        <h2 class="section-title">
+          <span class="line-reveal"><span>What&nbsp;our&nbsp;clients</span></span>
+          <span class="line-reveal"><em><span>actually&nbsp;say.</span></em></span>
+        </h2>
       </div>
 
-      <div class="process-steps">
-        <div class="process-connector">
-          <div class="process-line" id="processLine"></div>
-        </div>
+      <div class="testi-grid">
 
-        <div class="process-grid">
-          <div class="process-step reveal">
-            <span class="process-dot"></span>
-            <span class="process-num">01</span>
-            <h3 class="process-name">Discover</h3>
-            <p class="process-desc">We learn your world before we design yours. Deep research, competitor analysis, and brand archaeology — until we know your audience better than you do.</p>
-          </div>
-
-          <div class="process-step reveal" style="--delay:0.15s">
-            <span class="process-dot"></span>
-            <span class="process-num">02</span>
-            <h3 class="process-name">Strategize</h3>
-            <p class="process-desc">A blueprint built for impact. Every screen, every scroll, every word — planned with intent. We don't touch a pixel until the strategy is bulletproof.</p>
-          </div>
-
-          <div class="process-step reveal" style="--delay:0.3s">
-            <span class="process-dot"></span>
-            <span class="process-num">03</span>
-            <h3 class="process-name">Build</h3>
-            <p class="process-desc">Code meets obsession. AI-accelerated, vibe-coded, and human-perfected. We move fast without cutting corners — because speed and quality aren't opposites.</p>
-          </div>
-
-          <div class="process-step reveal" style="--delay:0.45s">
-            <span class="process-dot"></span>
-            <span class="process-num">04</span>
-            <h3 class="process-name">Launch</h3>
-            <p class="process-desc">We ship fast. Then we make it legendary. Rigorous QA, performance optimization, and post-launch monitoring until the numbers exceed your expectations.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── Testimonials ──────────────────────────────────────────── -->
-    <section class="testimonials" id="testimonials">
-      <div class="section-header reveal">
-        <span class="section-num">04</span>
-        <h2 class="section-title">What our<br />clients<br /><em>say</em></h2>
-      </div>
-
-      <div class="testimonials-grid">
-        <div class="testimonial reveal">
-          <div class="testimonial-stars">★★★★★</div>
-          <blockquote class="testimonial-quote">
-            "Gitay Gold didn't just build us a website. They built us a revenue machine. Our conversions increased 340% in the first month alone. I genuinely don't understand how they move this fast."
+        <article class="testi reveal" data-cursor="read">
+          <span class="testi-mark">"</span>
+          <div class="testi-stars">★★★★★</div>
+          <blockquote class="testi-quote">
+            Gitay Gold didn't just build us a website. They built us a revenue machine. Conversions <em class="accent">+340%</em> in the first month. I genuinely don't understand how they move this fast.
           </blockquote>
-          <div class="testimonial-author">
+          <footer class="testi-author">
             <div class="author-avatar">RM</div>
-            <div>
+            <div class="author-meta">
               <span class="author-name">Ran M.</span>
-              <span class="author-role">Founder @ Luminary</span>
+              <span class="author-role">Founder · Luminary</span>
             </div>
-          </div>
-        </div>
+          </footer>
+        </article>
 
-        <div class="testimonial reveal" style="--delay:0.2s">
-          <div class="testimonial-stars">★★★★★</div>
-          <blockquote class="testimonial-quote">
-            "From brief to launch in two weeks. The design is stunning, the code is flawless, and the AI integrations they added are something our competitors will be copying for years."
+        <article class="testi reveal" style="--delay:0.15s" data-cursor="read">
+          <span class="testi-mark">"</span>
+          <div class="testi-stars">★★★★★</div>
+          <blockquote class="testi-quote">
+            From brief to launch in <em>two weeks.</em> The design is stunning, the code is flawless, and the AI integrations they shipped are something our competitors will be copying for years.
           </blockquote>
-          <div class="testimonial-author">
+          <footer class="testi-author">
             <div class="author-avatar">NS</div>
-            <div>
+            <div class="author-meta">
               <span class="author-name">Noa S.</span>
-              <span class="author-role">CEO @ Apex Commerce</span>
+              <span class="author-role">CEO · Apex Commerce</span>
             </div>
-          </div>
-        </div>
+          </footer>
+        </article>
 
-        <div class="testimonial testimonial--wide reveal" style="--delay:0.1s">
-          <div class="testimonial-stars">★★★★★</div>
-          <blockquote class="testimonial-quote testimonial-quote--big">
-            "Working with Gitay Gold is like hiring a team of 20 people who all care about your project as if it's their own. The attention to detail, the speed, the communication — nothing comes close."
+        <article class="testi testi--wide reveal" style="--delay:0.3s" data-cursor="read">
+          <span class="testi-mark">"</span>
+          <div class="testi-stars">★★★★★</div>
+          <blockquote class="testi-quote testi-quote--big">
+            Working with Gitay Gold feels like hiring a team of twenty who all care about your project as if it's their own. <em>The attention to detail. The speed. The communication.</em> Nothing comes close.
           </blockquote>
-          <div class="testimonial-author">
+          <footer class="testi-author">
             <div class="author-avatar">DK</div>
-            <div>
+            <div class="author-meta">
               <span class="author-name">Dana K.</span>
-              <span class="author-role">Marketing Director @ Ember Group</span>
+              <span class="author-role">Marketing Director · Ember Group</span>
             </div>
-          </div>
-        </div>
+          </footer>
+        </article>
+
       </div>
     </section>
 
-    <!-- ─── About ─────────────────────────────────────────────────── -->
-    <section class="about" id="about">
+    <!-- ═════ ABOUT ════════════════════════════════════════════════ -->
+    <section class="about" id="about" data-section-bg="#0a0907">
       <div class="about-grid">
         <div class="about-left reveal">
-          <span class="section-num">05</span>
-          <h2 class="section-title">We build<br />for brands<br /><em>that refuse</em><br />to be average.</h2>
+          <span class="section-num">( 05 / The Studio )</span>
+          <h2 class="section-title">
+            <span class="line-reveal"><span>We&nbsp;build&nbsp;for</span></span>
+            <span class="line-reveal"><span>brands&nbsp;that</span></span>
+            <span class="line-reveal"><em><span>refuse&nbsp;to&nbsp;be</span></em></span>
+            <span class="line-reveal"><em class="accent"><span>average.</span></em></span>
+          </h2>
         </div>
-        <div class="about-right reveal" style="--delay: 0.2s">
+        <div class="about-right reveal" style="--delay:0.2s">
           <p class="about-text">
-            Gitay Gold is a boutique web agency operating at the intersection of design obsession, technical precision, and artificial intelligence. We don't take on 50 clients a year — we take on the right ones.
+            Gitay Gold is a boutique studio operating at the intersection of <em>design obsession</em>, technical precision, and artificial intelligence. We don't take on 50 clients a year — we take on the right ones.
           </p>
           <p class="about-text">
-            Every project gets our complete attention. We use the latest AI tools, vibe coding techniques, and bleeding-edge frameworks to build what traditional agencies cannot — faster, smarter, and at a level that makes your competitors uncomfortable.
+            Every project gets our complete attention. We use the latest AI tools, vibe-coding techniques, and bleeding-edge frameworks to build what traditional agencies cannot — faster, smarter, and at a level that makes your competitors uncomfortable.
           </p>
           <div class="about-tags">
             <span class="tag">Web Development</span>
-            <span class="tag">AI Tools</span>
+            <span class="tag">AI &amp; Automation</span>
             <span class="tag">E-Commerce</span>
             <span class="tag">Vibe Coding</span>
             <span class="tag">Motion Design</span>
             <span class="tag">Brand Identity</span>
           </div>
+          <div class="about-signature">
+            <span class="sig-line"></span>
+            <span class="sig-text">— Crafted in 2026, hand-built every line.</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ─── Contact ───────────────────────────────────────────────── -->
-    <section class="contact" id="contact">
+    <!-- ═════ CONTACT ══════════════════════════════════════════════ -->
+    <section class="contact" id="contact" data-section-bg="#050505">
       <canvas class="contact-canvas" id="contactCanvas"></canvas>
+
       <div class="contact-inner reveal">
-        <span class="section-num">06</span>
-        <h2 class="contact-title">
-          Ready to build<br />something<span class="accent">?</span>
+        <span class="section-num">( 06 / Let's Build )</span>
+
+        <h2 class="contact-title" data-distort>
+          <span class="ct-line"><span class="ct-word">Ready</span> <span class="ct-word">to</span> <span class="ct-word italic">build</span></span>
+          <span class="ct-line"><span class="ct-word">something</span> <span class="ct-word accent">extraordinary?</span></span>
         </h2>
+
         <p class="contact-sub">
-          Let's turn your idea into digital gold.<br />
-          <em>First call is on us.</em>
+          Let's turn your idea into digital gold.<br/>
+          <em>The first call is on us — no pitches, just clarity.</em>
         </p>
-        <a href="mailto:hello@gitaygold.com" class="btn-magnetic" id="contactBtn">
+
+        <a href="mailto:hello@gitaygold.com" class="btn-magnetic" id="contactBtn" data-cursor="email">
           <span class="btn-magnetic-text">Start a project</span>
-          <span class="btn-magnetic-arrow">→</span>
+          <span class="btn-magnetic-arrow">↗</span>
         </a>
+
+        <div class="contact-meta">
+          <a href="mailto:hello@gitaygold.com" class="meta-link">
+            <span class="meta-key">Email</span>
+            <span class="meta-val">hello@gitaygold.com</span>
+          </a>
+          <div class="meta-link">
+            <span class="meta-key">Studio</span>
+            <span class="meta-val">Tel Aviv · Worldwide</span>
+          </div>
+          <div class="meta-link">
+            <span class="meta-key">Hours</span>
+            <span class="meta-val">Mon–Fri · 09:00–19:00 IST</span>
+          </div>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
+  <!-- ═════ FOOTER ═════════════════════════════════════════════════ -->
   <footer class="footer">
-    <div class="footer-left">
-      <span>© 2026 Gitay Gold. All rights reserved.</span>
+    <div class="footer-mega" aria-hidden="true">
+      <span class="footer-glyph">Gitay&nbsp;Gold<span class="dot">.</span></span>
     </div>
-    <div class="footer-right">
-      <a href="#">Instagram</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Dribbble</a>
-      <a href="admin.html" style="opacity:0.3;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;">Admin</a>
+    <div class="footer-bottom">
+      <div class="footer-left">
+        <span>© 2026 Gitay Gold Studio. All rights reserved.</span>
+      </div>
+      <div class="footer-mid">
+        <a href="#" class="ghost">Privacy</a>
+        <a href="#" class="ghost">Terms</a>
+        <a href="admin.html" class="ghost ghost--admin">Admin</a>
+      </div>
+      <div class="footer-right">
+        <a href="#" data-cursor="follow">Instagram ↗</a>
+        <a href="#" data-cursor="follow">LinkedIn ↗</a>
+        <a href="#" data-cursor="follow">Dribbble ↗</a>
+      </div>
     </div>
   </footer>
 
