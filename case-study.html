@@ -6,89 +6,226 @@
   <title>Case Study — Gitay Gold</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="case-study.css" />
 </head>
-<body>
+<body data-theme="ink">
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor">
+    <span class="cursor-label" id="cursorLabel"></span>
+  </div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Noise / Grain -->
+  <canvas class="noise-canvas" id="noiseCanvas"></canvas>
+  <div class="grain-overlay"></div>
+
+  <!-- Side rails -->
+  <div class="rail rail--left">
+    <span class="rail-text">Gitay Gold — Case Study Index</span>
+  </div>
+  <div class="rail rail--right">
+    <span class="rail-text" id="scrollPctText">00 — Intro</span>
+  </div>
 
   <!-- Nav -->
   <nav class="cs-nav" id="csNav">
-    <a href="index.html" class="cs-nav-logo">Gitay Gold<span class="dot">.</span></a>
-    <a href="index.html#work" class="cs-nav-back">← Back to Work</a>
+    <a href="index.html" class="cs-nav-logo" data-cursor="home">
+      <span class="logo-mark">◉</span>
+      <span class="logo-text">Gitay&nbsp;Gold<span class="dot">.</span></span>
+    </a>
+    <a href="index.html#work" class="cs-nav-back" data-cursor="back">
+      <span class="back-arrow">←</span>
+      <span class="back-words">
+        <span>Back to work</span>
+        <span>Back to work</span>
+      </span>
+    </a>
   </nav>
 
   <!-- 404 fallback -->
   <div class="cs-404 hidden" id="cs404">
-    <h1>Project not found</h1>
+    <span class="cs-404-eyebrow">( Error / 404 )</span>
+    <h1>Project not<br/><em>found.</em></h1>
     <p>This case study doesn't exist or has been removed.</p>
-    <a href="index.html#work" class="btn-back-big">← Back to portfolio</a>
+    <a href="index.html#work" class="btn-back-big" data-cursor="back">
+      <span>Back to portfolio</span>
+      <span class="btn-arrow">↗</span>
+    </a>
   </div>
 
-  <!-- Case Study content (filled by JS) -->
+  <!-- Case Study content -->
   <article class="cs-article hidden" id="csArticle">
 
-    <!-- Hero -->
-    <div class="cs-hero" id="csHero">
-      <div class="cs-hero-overlay"></div>
-      <div class="cs-hero-content">
-        <div class="cs-hero-meta" id="csHeroMeta"></div>
-        <h1 class="cs-hero-title" id="csHeroTitle"></h1>
+    <!-- ═════ HERO ═════════════════════════════════════════════════ -->
+    <section class="cs-hero">
+      <div class="cs-hero-grid">
+
+        <header class="cs-hero-meta-row">
+          <div class="meta-block">
+            <span class="meta-key">Client</span>
+            <span class="meta-val" id="csMetaClient">—</span>
+          </div>
+          <div class="meta-block">
+            <span class="meta-key">Year</span>
+            <span class="meta-val" id="csMetaYear">—</span>
+          </div>
+          <div class="meta-block">
+            <span class="meta-key">Discipline</span>
+            <span class="meta-val" id="csMetaCat">—</span>
+          </div>
+          <div class="meta-block meta-block--end">
+            <span class="meta-key">Status</span>
+            <span class="meta-status"><span class="status-pulse"></span><span id="csMetaStatus">Live</span></span>
+          </div>
+        </header>
+
+        <h1 class="cs-hero-title" id="csHeroTitle">
+          <span class="cs-line-reveal"><span class="cs-line-inner"></span></span>
+        </h1>
+
         <p class="cs-hero-desc" id="csHeroDesc"></p>
+
+        <div class="cs-hero-bottom">
+          <div class="cs-hero-tags" id="csHeroTags"></div>
+          <a href="#story" class="cs-hero-scroll" data-cursor="explore">
+            <span class="scroll-arrow">↓</span>
+            <span class="scroll-words">
+              <span>Begin the story</span>
+              <span>Begin the story</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero image (clip-path reveal) -->
+      <div class="cs-hero-image-wrap">
+        <div class="cs-hero-image-clip">
+          <img id="csHeroImage" alt="" />
+        </div>
+        <div class="cs-hero-image-overlay"></div>
+      </div>
+    </section>
+
+    <!-- ═════ INFO BAR ═════════════════════════════════════════════ -->
+    <section class="cs-info-bar" id="csInfoBar"></section>
+
+    <!-- ═════ MARQUEE ══════════════════════════════════════════════ -->
+    <div class="cs-marquee">
+      <div class="cs-marquee-track">
+        <div class="cs-marquee-inner" id="csMarqueeInner"></div>
       </div>
     </div>
 
-    <!-- Project info bar -->
-    <div class="cs-info-bar" id="csInfoBar"></div>
-
-    <!-- Body -->
-    <div class="cs-body">
+    <!-- ═════ STORY ════════════════════════════════════════════════ -->
+    <section class="cs-story" id="story">
 
       <!-- Challenge -->
-      <section class="cs-section reveal" id="csChallengeSection">
-        <div class="cs-section-label">The Challenge</div>
-        <p class="cs-section-text" id="csChallenge"></p>
-      </section>
+      <article class="cs-story-block reveal" id="csChallengeSection">
+        <div class="cs-story-label">
+          <span class="story-num">01</span>
+          <span class="story-eyebrow">— The Challenge</span>
+        </div>
+        <h2 class="cs-story-heading">
+          <span class="line-reveal"><span>The brief, in</span></span>
+          <span class="line-reveal"><em><span>their own words.</span></em></span>
+        </h2>
+        <p class="cs-story-text" id="csChallenge"></p>
+      </article>
 
       <!-- Solution -->
-      <section class="cs-section reveal" id="csSolutionSection">
-        <div class="cs-section-label">The Solution</div>
-        <p class="cs-section-text" id="csSolution"></p>
-      </section>
+      <article class="cs-story-block reveal" id="csSolutionSection">
+        <div class="cs-story-label">
+          <span class="story-num">02</span>
+          <span class="story-eyebrow">— The Solution</span>
+        </div>
+        <h2 class="cs-story-heading">
+          <span class="line-reveal"><span>Our</span></span>
+          <span class="line-reveal"><em><span>response.</span></em></span>
+        </h2>
+        <p class="cs-story-text" id="csSolution"></p>
+      </article>
 
       <!-- Content Blocks -->
-      <div id="csBlocks"></div>
+      <div id="csBlocks" class="cs-blocks"></div>
 
-      <!-- KPIs / Results -->
-      <section class="cs-kpis reveal" id="csKpisSection">
-        <div class="cs-section-label">Results & Impact</div>
-        <p class="cs-section-text" id="csResults"></p>
-        <div class="cs-kpi-grid" id="csKpiGrid"></div>
-      </section>
+    </section>
 
-      <!-- CTA -->
-      <section class="cs-cta reveal" id="csCta">
-        <a href="#" class="cs-live-btn" id="csLiveBtn" target="_blank" rel="noopener">
-          <span>View Live Site</span>
-          <span class="cs-live-arrow">↗</span>
+    <!-- ═════ KPIs / RESULTS ═══════════════════════════════════════ -->
+    <section class="cs-kpis reveal" id="csKpisSection">
+      <div class="cs-story-label">
+        <span class="story-num">03</span>
+        <span class="story-eyebrow">— Results &amp; Impact</span>
+      </div>
+      <h2 class="cs-story-heading cs-story-heading--big">
+        <span class="line-reveal"><span>The numbers</span></span>
+        <span class="line-reveal"><em><span>that mattered.</span></em></span>
+      </h2>
+      <p class="cs-story-text" id="csResults"></p>
+      <div class="cs-kpi-grid" id="csKpiGrid"></div>
+    </section>
+
+    <!-- ═════ CTA / Live ═══════════════════════════════════════════ -->
+    <section class="cs-cta reveal" id="csCta">
+      <div class="cta-inner">
+        <span class="cta-eyebrow">— Step inside</span>
+        <h2 class="cta-title">
+          See it<br/><em class="accent">live.</em>
+        </h2>
+        <a href="#" class="btn-magnetic" id="csLiveBtn" target="_blank" rel="noopener" data-cursor="visit">
+          <span class="btn-magnetic-text">Visit the live site</span>
+          <span class="btn-magnetic-arrow">↗</span>
         </a>
-      </section>
+      </div>
+    </section>
 
-    </div>
-
-    <!-- Related Projects -->
+    <!-- ═════ RELATED ══════════════════════════════════════════════ -->
     <section class="cs-related" id="csRelated">
-      <div class="cs-related-label">More Work</div>
+      <div class="cs-related-header">
+        <span class="story-num">04</span>
+        <h2 class="cs-related-title">
+          <span class="line-reveal"><span>More</span></span>
+          <span class="line-reveal"><em><span>recent&nbsp;wins.</span></em></span>
+        </h2>
+      </div>
       <div class="cs-related-grid" id="csRelatedGrid"></div>
+    </section>
+
+    <!-- ═════ NEXT ═════════════════════════════════════════════════ -->
+    <section class="cs-next" id="csNext">
+      <a href="index.html#work" class="cs-next-link" data-cursor="explore">
+        <span class="next-eyebrow">— Continue exploring</span>
+        <span class="cs-next-title">Browse the<br/><em>full archive</em><span class="next-arrow">↗</span></span>
+      </a>
     </section>
 
   </article>
 
-  <!-- Footer -->
-  <footer class="cs-footer">
-    <span>© 2026 Gitay Gold. All rights reserved.</span>
-    <a href="index.html#contact">Let's work together →</a>
+  <!-- ═════ FOOTER ═════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-mega" aria-hidden="true">
+      <span class="footer-glyph">Gitay&nbsp;Gold<span class="dot">.</span></span>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-left">
+        <span>© 2026 Gitay Gold Studio. All rights reserved.</span>
+      </div>
+      <div class="footer-mid">
+        <a href="index.html" class="ghost">Home</a>
+        <a href="index.html#contact" class="ghost">Contact</a>
+        <a href="admin.html" class="ghost ghost--admin">Admin</a>
+      </div>
+      <div class="footer-right">
+        <a href="#" data-cursor="follow">Instagram ↗</a>
+        <a href="#" data-cursor="follow">LinkedIn ↗</a>
+        <a href="#" data-cursor="follow">Dribbble ↗</a>
+      </div>
+    </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="cms.js"></script>
   <script src="case-study.js"></script>
 </body>
