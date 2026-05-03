@@ -1,0 +1,41 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "cleanUrls": true,
+  "trailingSlash": false,
+
+  "rewrites": [
+    { "source": "/case-study/:slug", "destination": "/case-study.html?slug=:slug" }
+  ],
+
+  "redirects": [
+    { "source": "/admin",      "destination": "https://admin.gitaygold.com/admin/dashboard", "permanent": false },
+    { "source": "/admin.html", "destination": "https://admin.gitaygold.com/admin/dashboard", "permanent": false },
+    { "source": "/admin.js",   "destination": "https://admin.gitaygold.com",                  "permanent": false },
+    { "source": "/admin.css",  "destination": "https://admin.gitaygold.com",                  "permanent": false }
+  ],
+
+  "headers": [
+    {
+      "source": "/:path*\\.(js|css)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/:path*\\.(png|jpg|jpeg|webp|avif|svg|ico|gif|woff|woff2)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options",        "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy",        "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy",     "value": "interest-cohort=(), camera=(), microphone=(), geolocation=()" }
+      ]
+    }
+  ]
+}

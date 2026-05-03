@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Migrate localStorage → Supabase · Gitay Gold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="config.js"></script>
+  <style>
+    /* Minimal admin-style tooling UI — intentionally NOT loading the
+       live site's stylesheets so this stays separate from the brand
+       site and reads as "admin tooling". */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #060606;
+      --fg:     #f0ede8;
+      --muted:  #888375;
+      --border: rgba(240,237,232,0.10);
+      --card:   #0d0d0c;
+      --accent: #ff4d00;
+      --green:  #10b981;
+      --red:    #ef4444;
+      --amber:  #f59e0b;
+      --mono:   'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 32px clamp(20px, 4vw, 56px) 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: 1100px; margin: 0 auto; }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    h1 em { font-weight: 400; color: var(--accent); font-style: normal; }
+
+    .lede { color: var(--muted); font-size: 0.9rem; max-width: 60ch; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 0.65rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+    }
+    .pill.warn { color: var(--amber); border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.05); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .card h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; }
+    .card p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+
+    /* Form */
+    label { display: block; font-size: 0.75rem; font-weight: 500; margin-bottom: 6px; color: var(--fg); }
+    label .hint { display: block; font-size: 0.7rem; font-weight: 400; color: var(--muted); margin-top: 4px; }
+
+    input[type="password"], input[type="text"] {
+      width: 100%; padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--fg);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.01em;
+    }
+    input[type="password"]:focus, input[type="text"]:focus {
+      outline: none; border-color: var(--accent);
+    }
+
+    /* Buttons */
+    button {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      font: inherit; font-size: 0.84rem; font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.18s, border-color 0.18s, opacity 0.18s;
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-primary { background: var(--fg); color: var(--bg); }
+    .btn-primary:hover:not(:disabled) { background: var(--accent); color: var(--fg); }
+    .btn-danger  { background: rgba(239,68,68,0.1); color: var(--red); border-color: rgba(239,68,68,0.3); }
+    .btn-danger:hover:not(:disabled) { background: rgba(239,68,68,0.2); }
+    .btn-ghost   { background: transparent; color: var(--muted); border-color: var(--border); }
+    .btn-ghost:hover:not(:disabled) { color: var(--fg); }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.78rem; }
+    thead th {
+      text-align: left; font-weight: 500;
+      padding: 10px 8px;
+      font-family: var(--mono); font-size: 0.66rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    tbody td { padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody tr:last-child td { border-bottom: none; }
+    .tcell-status { font-family: var(--mono); font-size: 0.7rem; }
+    .ok    { color: var(--green); }
+    .err   { color: var(--red); }
+    .pend  { color: var(--muted); }
+    .run   { color: var(--amber); }
+
+    .actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+
+    .summary {
+      margin-top: 20px; padding: 16px;
+      background: rgba(16,185,129,0.06);
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    .summary.fail {
+      background: rgba(239,68,68,0.06);
+      border-color: rgba(239,68,68,0.3);
+    }
+    .summary strong { font-weight: 600; }
+
+    code { font-family: var(--mono); font-size: 0.85em; padding: 1px 6px; background: var(--bg); border-radius: 3px; }
+
+    .danger-zone {
+      margin-top: 32px;
+      padding: 20px;
+      border: 1px dashed rgba(239,68,68,0.25);
+      border-radius: 12px;
+      background: rgba(239,68,68,0.02);
+    }
+    .danger-zone h2 { color: var(--red); }
+
+    .empty {
+      text-align: center; padding: 48px 16px;
+      color: var(--muted); font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+      <span class="pill">One-time tool</span>
+      <span class="pill warn">Phase 3 / Migration</span>
+    </header>
+
+    <h1>Migrate localStorage <em>→</em> Supabase</h1>
+    <p class="lede">
+      Copies projects from the legacy localStorage CMS into the new
+      Supabase <code>projects</code> table. Run once, verify, then clear
+      localStorage. Safe to run more than once — duplicate slugs get a
+      <code>-migrated-N</code> suffix.
+    </p>
+
+    <!-- ── 1) Source preview ─────────────────────────────────────── -->
+    <section class="card">
+      <h2>1. Found in localStorage</h2>
+      <p>Reading key <code>gitaygold_cms_v1</code> on this device.</p>
+      <div id="sourceArea" style="margin-top:12px;">
+        <div class="empty">Scanning…</div>
+      </div>
+    </section>
+
+    <!-- ── 2) Service-role key ──────────────────────────────────── -->
+    <section class="card">
+      <h2>2. Paste the service-role key</h2>
+      <p style="margin-bottom:12px;">
+        Found in <em>Supabase Dashboard → Project Settings → API → <code>service_role</code> secret</em>.
+        It bypasses RLS so we can insert published rows directly.
+        <br /><br />
+        <strong style="color:var(--amber)">⚠️ Never commit this key.</strong>
+        It lives only in this tab's memory for the duration of the migration —
+        cleared on tab close.
+      </p>
+      <label for="srKey">
+        Service-role key
+        <span class="hint">Starts with <code>eyJ...</code>, longer than the anon key.</span>
+      </label>
+      <input id="srKey" type="password" autocomplete="off" spellcheck="false" placeholder="eyJhbGciOiJIUzI1NiIs..." />
+    </section>
+
+    <!-- ── 3) Run + per-row results ─────────────────────────────── -->
+    <section class="card">
+      <h2>3. Migrate</h2>
+      <div class="actions">
+        <button id="btnMigrate" class="btn-primary" disabled>Run migration</button>
+        <button id="btnRescan"  class="btn-ghost"   type="button">Re-scan localStorage</button>
+      </div>
+      <div id="resultsArea" style="margin-top:16px;"></div>
+      <div id="summaryArea"></div>
+    </section>
+
+    <!-- ── 4) Cleanup ───────────────────────────────────────────── -->
+    <section class="danger-zone">
+      <h2 style="font-size:0.95rem; font-weight:600;">4. Clear localStorage (Danger)</h2>
+      <p style="margin:8px 0 14px 0;">
+        Enabled only when ALL projects migrated successfully. Removes
+        <code>gitaygold_cms_v1</code> from this browser.
+        The static site uses Supabase from now on.
+      </p>
+      <button id="btnClear" class="btn-danger" disabled>Clear localStorage</button>
+      <div id="clearedNote" style="margin-top:10px; color:var(--green); font-size:0.85rem;"></div>
+    </section>
+
+  </div>
+
+  <script>
+  (() => {
+    'use strict';
+
+    /* ── DOM refs ──────────────────────────────────────────────── */
+    const $source   = document.getElementById('sourceArea');
+    const $key      = document.getElementById('srKey');
+    const $btnMig   = document.getElementById('btnMigrate');
+    const $btnScan  = document.getElementById('btnRescan');
+    const $btnClear = document.getElementById('btnClear');
+    const $results  = document.getElementById('resultsArea');
+    const $summary  = document.getElementById('summaryArea');
+    const $cleared  = document.getElementById('clearedNote');
+
+    const STORAGE_KEY = 'gitaygold_cms_v1';
+    const cfg = window.__SUPABASE__ || {};
+    const SUPABASE_URL = (cfg.url || '').replace(/\/$/, '');
+
+    if (!SUPABASE_URL) {
+      $source.innerHTML = '<p class="err">config.js is missing or has no URL. Aborting.</p>';
+      return;
+    }
+
+    /* ── Read + render localStorage source ─────────────────────── */
+    let projects = [];
+
+    function loadFromLocalStorage() {
+      let raw;
+      try { raw = localStorage.getItem(STORAGE_KEY); }
+      catch (e) {
+        $source.innerHTML = `<p class="err">localStorage is blocked: ${escHtml(e.message)}</p>`;
+        return;
+      }
+      if (!raw) {
+        projects = [];
+        $source.innerHTML = '<div class="empty">No projects found in <code>localStorage[gitaygold_cms_v1]</code>. Nothing to migrate.</div>';
+        $btnMig.disabled = true;
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) throw new Error('Not an array');
+        projects = parsed;
+      } catch (e) {
+        $source.innerHTML = `<p class="err">Couldn't parse localStorage: ${escHtml(e.message)}</p>`;
+        return;
+      }
+      renderSourceTable();
+      updateMigrateBtn();
+    }
+
+    function renderSourceTable() {
+      if (!projects.length) {
+        $source.innerHTML = '<div class="empty">localStorage has 0 projects. Nothing to migrate.</div>';
+        return;
+      }
+      const rows = projects.map((p, i) => `
+        <tr data-idx="${i}">
+          <td class="tcell-status pend" data-col="status">queued</td>
+          <td><strong>${escHtml(p.title || '(untitled)')}</strong></td>
+          <td><code>${escHtml(p.slug || '')}</code></td>
+          <td>${escHtml(p.client || '—')}</td>
+          <td>${escHtml(p.date || '—')}</td>
+          <td>${escHtml(p.category || '—')}</td>
+          <td>${p.visible === false ? '<span class="run">draft</span>' : '<span class="ok">published</span>'}</td>
+          <td data-col="message" style="color:var(--muted);"></td>
+        </tr>
+      `).join('');
+      $source.innerHTML = `
+        <p>${projects.length} project${projects.length === 1 ? '' : 's'} ready to migrate.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th><th>Title</th><th>Slug</th><th>Client</th><th>Year</th><th>Category</th><th>Vis.</th><th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="srcTbody">${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function updateMigrateBtn() {
+      $btnMig.disabled = projects.length === 0 || !$key.value.trim();
+    }
+
+    /* ── Field mapping: cms.js shape → Supabase row shape ──────── */
+    function toSupabaseRow(p, slugOverride) {
+      // Year: parseInt the legacy string. If unparseable, fall back to
+      // current year and surface a warning later.
+      let year = parseInt(String(p.date ?? ''), 10);
+      let yearWarning = '';
+      if (!Number.isFinite(year) || year < 1990 || year > 2100) {
+        yearWarning = `Bad year "${p.date}" — defaulted to ${new Date().getFullYear()}`;
+        year = new Date().getFullYear();
+      }
+
+      // visible boolean → status enum.
+      const status = p.visible === false ? 'draft' : 'published';
+
+      // createdAt (ms number) → ISO. Used as published_at for already-
+      // published rows so the timeline isn't empty.
+      const createdAtIso = (() => {
+        const n = Number(p.createdAt);
+        if (!Number.isFinite(n)) return new Date().toISOString();
+        return new Date(n).toISOString();
+      })();
+
+      return {
+        row: {
+          slug:               slugOverride ?? p.slug ?? '',
+          title:              p.title ?? '',
+          client:             p.client ?? '',
+          year,
+          category:           p.category ?? 'web',
+          live_url:           p.liveUrl && p.liveUrl !== '#' ? p.liveUrl : null,
+          tags:               Array.isArray(p.tags) ? p.tags : [],
+          short_description:  p.shortDesc ?? null,
+          hero_image_url:     p.heroImage ?? null,
+          thumbnail_url:      p.thumbnail ?? null,
+          // jsonb columns: must be valid JSON-serializable. We trust
+          // the legacy admin to have produced well-formed shapes.
+          gallery: [],
+          blocks: Array.isArray(p.blocks) ? p.blocks : [],
+          kpis:   Array.isArray(p.kpis)   ? p.kpis   : [],
+          the_challenge:      p.challenge ?? null,
+          the_solution:       p.solution  ?? null,
+          results:            p.results   ?? null,
+          status,
+          display_order:      0,
+          featured:           !!p.featured,
+          seo_title:          null,
+          seo_description:    null,
+          created_at:         createdAtIso,
+          published_at:       status === 'published' ? createdAtIso : null,
+          // created_by stays null — there's no logged-in user during
+          // migration, and the column is nullable.
+        },
+        warnings: yearWarning ? [yearWarning] : [],
+      };
+    }
+
+    /* ── REST helpers (service-role) ───────────────────────────── */
+    function srHeaders(key) {
+      return {
+        'apikey':         key,
+        'Authorization':  `Bearer ${key}`,
+        'Content-Type':   'application/json',
+        'Prefer':         'return=representation',
+      };
+    }
+
+    async function insertRow(key, row) {
+      const resp = await fetch(`${SUPABASE_URL}/rest/v1/projects`, {
+        method:  'POST',
+        headers: srHeaders(key),
+        body:    JSON.stringify([row]),
+      });
+      if (resp.ok) {
+        const arr = await resp.json();
+        return { ok: true, row: arr[0] };
+      }
+      // Read error body for diagnostics.
+      let err = await resp.text().catch(() => '');
+      let code = '';
+      try { const j = JSON.parse(err); code = j.code || ''; err = j.message || err; } catch { /* not JSON */ }
+      return { ok: false, status: resp.status, code, error: err };
+    }
+
+    /* ── Migrate one row, with slug-collision retry ────────────── */
+    async function migrateOne(key, p, $row) {
+      const setStatus = (cls, msg) => {
+        $row.querySelector('[data-col="status"]').className = `tcell-status ${cls}`;
+        $row.querySelector('[data-col="status"]').textContent = msg;
+      };
+      const setMsg = (msg) => {
+        $row.querySelector('[data-col="message"]').textContent = msg;
+      };
+
+      setStatus('run', 'inserting…');
+
+      const { row: payload, warnings } = toSupabaseRow(p);
+      let attempt = 0;
+      let result = await insertRow(key, payload);
+
+      // 23505 = unique_violation. The only unique col is `slug`; rewrite and retry.
+      while (!result.ok && result.code === '23505' && attempt < 30) {
+        attempt += 1;
+        payload.slug = `${(p.slug || 'project').replace(/-+migrated-\d+$/, '')}-migrated-${attempt}`;
+        result = await insertRow(key, payload);
+      }
+
+      if (result.ok) {
+        const note = warnings.length
+          ? `Inserted as "${payload.slug}" · ${warnings.join('; ')}`
+          : (attempt > 0
+              ? `Inserted as "${payload.slug}" (renamed from "${p.slug}" — slug already existed)`
+              : `Inserted`);
+        setStatus('ok', '✓ ok');
+        setMsg(note);
+        return { ok: true };
+      }
+
+      const httpInfo = result.status ? `HTTP ${result.status}` : 'fetch failed';
+      setStatus('err', '✗ failed');
+      setMsg(`${httpInfo}${result.code ? ` (${result.code})` : ''}: ${result.error || 'unknown error'}`);
+      return { ok: false };
+    }
+
+    /* ── Drive the whole batch ─────────────────────────────────── */
+    async function runMigration() {
+      const key = $key.value.trim();
+      if (!key || projects.length === 0) return;
+
+      $btnMig.disabled = true;
+      $btnScan.disabled = true;
+      $btnClear.disabled = true;
+      $key.disabled = true;
+      $summary.innerHTML = '';
+      $cleared.textContent = '';
+
+      const tbody = document.getElementById('srcTbody');
+      const rows = tbody.querySelectorAll('tr');
+
+      let okCount = 0, failCount = 0;
+      for (let i = 0; i < projects.length; i++) {
+        const r = await migrateOne(key, projects[i], rows[i]);
+        if (r.ok) okCount += 1;
+        else failCount += 1;
+      }
+
+      const allOk = failCount === 0;
+      $summary.innerHTML = `
+        <div class="summary ${allOk ? '' : 'fail'}">
+          <strong>${allOk ? '✓ Migration complete.' : '⚠ Migration partial.'}</strong>
+          ${okCount} of ${projects.length} project${projects.length === 1 ? '' : 's'} inserted${failCount ? `, ${failCount} failed` : ''}.
+          ${allOk
+            ? 'Verify in <a href="https://supabase.com/dashboard" target="_blank" rel="noopener" style="color:var(--accent);">Supabase Table Editor</a>, then clear localStorage below.'
+            : 'localStorage was NOT cleared. Fix the failures above and click <em>Run migration</em> again — already-inserted slugs will get a <code>-migrated-N</code> suffix.'}
+        </div>
+      `;
+
+      $btnMig.disabled = false;
+      $btnScan.disabled = false;
+      $key.disabled = false;
+      $btnClear.disabled = !allOk;
+    }
+
+    /* ── Clear localStorage (only after 100% pass) ──────────────── */
+    function clearLocal() {
+      if (!confirm('Remove gitaygold_cms_v1 from localStorage on this device? This cannot be undone, but the data is now in Supabase.')) return;
+      try { localStorage.removeItem(STORAGE_KEY); }
+      catch (e) {
+        $cleared.textContent = `Couldn't clear: ${e.message}`;
+        $cleared.style.color = 'var(--red)';
+        return;
+      }
+      $cleared.textContent = '✓ Cleared. The static site now reads exclusively from Supabase.';
+      $cleared.style.color = 'var(--green)';
+      $btnClear.disabled = true;
+      // Refresh the source preview so it shows "nothing to migrate".
+      projects = [];
+      renderSourceTable();
+      updateMigrateBtn();
+    }
+
+    /* ── Tiny escape helper ────────────────────────────────────── */
+    function escHtml(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    /* ── Wire up ──────────────────────────────────────────────── */
+    $key.addEventListener('input', updateMigrateBtn);
+    $btnMig.addEventListener('click', runMigration);
+    $btnScan.addEventListener('click', loadFromLocalStorage);
+    $btnClear.addEventListener('click', clearLocal);
+
+    loadFromLocalStorage();
+  })();
+  </script>
+</body>
+</html>

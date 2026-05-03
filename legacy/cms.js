@@ -1,6 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════
-   Gitay Gold CMS — Shared Data Layer
-   All pages import this file to read/write projects from localStorage
+   Gitay Gold CMS — Shared Data Layer (LEGACY)
+   ───────────────────────────────────────────────────────────────────
+   ARCHIVED IN PHASE 3 — replaced by ../cms-api.js (Supabase REST).
+   The static site no longer loads this file.
+   See ../legacy/README.md for context.
    ═══════════════════════════════════════════════════════════════════ */
 
 const CMS = (() => {

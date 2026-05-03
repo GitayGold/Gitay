@@ -1,4 +1,6 @@
-/* ─── Admin Panel — Gitay Gold ──────────────────────────────────── */
+/* ─── Admin Panel — Gitay Gold (ARCHIVED in Phase 3) ───────────────
+   Active admin: ../admin-next/  |  See ../legacy/README.md
+─────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {

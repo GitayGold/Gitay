@@ -1,5 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════════
    Gitay Gold — Admin Panel JS
+   ───────────────────────────────────────────────────────────────────
+   ARCHIVED IN PHASE 3 — do not load from the live site.
+   Active admin lives at ../admin-next/ (Next.js + Supabase).
+   Production: https://admin.gitaygold.com  ·  Local: http://localhost:3001
+   See ../legacy/README.md for context.
    ═══════════════════════════════════════════════════════════════════ */
 
 const ADMIN_PASS    = '123456';

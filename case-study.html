@@ -214,7 +214,7 @@
       <div class="footer-mid">
         <a href="index.html" class="ghost">Home</a>
         <a href="index.html#contact" class="ghost">Contact</a>
-        <a href="admin.html" class="ghost ghost--admin">Admin</a>
+        <a id="adminLink" href="/admin" class="ghost ghost--admin">Admin</a>
       </div>
       <div class="footer-right">
         <a href="#" data-cursor="follow">Instagram ↗</a>
@@ -226,7 +226,10 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="cms.js"></script>
+  <!-- Phase 3: Supabase config (window.__SUPABASE__ + window.__ADMIN_URL__)
+       must load BEFORE cms-api.js so the latter can read it on init. -->
+  <script src="config.js"></script>
+  <script src="cms-api.js"></script>
   <script src="case-study.js"></script>
 </body>
 </html>

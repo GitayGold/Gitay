@@ -439,11 +439,15 @@ function initScrollPct() {
 }
 
 /* ── Boot ────────────────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-  CMS.init();
-
+/* Phase 3: cms-api.js is async (Supabase fetch). We `await` before
+   reading getBySlug. Cursor + noise run synchronously first since they
+   don't depend on project data — that way the page chrome shows up
+   during the (usually-cached, ~10ms) network wait. */
+document.addEventListener('DOMContentLoaded', async () => {
   initCursor();
   initNoise();
+
+  await CMS.init();
 
   const slug = decodeURIComponent(window.location.hash.slice(1)) ||
                new URLSearchParams(window.location.search).get('slug');

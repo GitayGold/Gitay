@@ -579,9 +579,13 @@ function initTestimonialsHover() {
 }
 
 /* ── CMS Work Grid ───────────────────────────────────────────────── */
-function initWorkGrid() {
+/* Phase 3: cms-api.js is async (fetches from Supabase). We `await` the
+   ready-promise so getFeatured() reads from a populated cache. The rest
+   of bootSite() runs in parallel — animations + Three.js don't depend
+   on the grid being painted. */
+async function initWorkGrid() {
   if (typeof CMS === 'undefined') return;
-  CMS.init();
+  await CMS.init();
 
   const grid     = document.getElementById('workGrid');
   const projects = CMS.getFeatured(3);
@@ -653,8 +657,15 @@ function initLoading() {
 }
 
 /* ── Boot site after loading ─────────────────────────────────────── */
-function bootSite() {
-  initWorkGrid();
+/* Phase 3: bootSite is now async because initWorkGrid awaits the
+   Supabase fetch. We MUST populate the grid before initScrollReveals
+   runs — otherwise ScrollTrigger scans the DOM, doesn't see the
+   work-items (still in flight), and they stay at opacity:0 forever.
+   In practice the await is near-instant: cms-api.js kicks the fetch
+   from <head>, so by the time the loading screen finishes its
+   ~1.5s exit transition, the data is already in cache. */
+async function bootSite() {
+  await initWorkGrid();
   initSmoothScroll();
   initHeroScene();
   initContactScene();
